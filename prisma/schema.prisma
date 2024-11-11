@@ -24,8 +24,9 @@ model user {
 }
 
 model transaction {
-  Id Int @id
-  Valor Float
+  Id Int @id @default(autoincrement())
+  Value Float
+  Type String
   UserId Int
   User user @relation(fields: [UserId], references: [Id])
 }

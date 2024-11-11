@@ -1,14 +1,26 @@
 GET http://127.0.0.1:3000/
 
 ####
-POST http://127.0.0.1:3000/adduser
+POST http://127.0.0.1:3000/registuser
+Content-Type:application/json
+
+{
+    "Email":"franciscohenrique23@gmail.com",
+    "Password":"lklssffdbs",
+    "Username":"Renato Russo"
+}
+
+####
+POST http://127.0.0.1:3000/action/2/50/positive
+
+####
+DELETE http://127.0.0.1:3000/remuser/1
+
+####
+PATCH http://127.0.0.1:3000/auth/login
 Content-Type:application/json
 
 {
     "Email":"Joaquin22@gmail.com",
-    "Password":"Joaquis33",
-    "Username":"Joaquim"
+    "Password":"Joaquis33"
 }
-
-####
-DELETE http://127.0.0.1:3000/remuser/1
