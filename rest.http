@@ -1,0 +1,14 @@
+GET http://127.0.0.1:3000/
+
+####
+POST http://127.0.0.1:3000/adduser
+Content-Type:application/json
+
+{
+    "Email":"Joaquin22@gmail.com",
+    "Password":"Joaquis33",
+    "Username":"Joaquim"
+}
+
+####
+DELETE http://127.0.0.1:3000/remuser/1
