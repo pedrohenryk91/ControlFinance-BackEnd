@@ -9,6 +9,25 @@ app.get("/",async (request, response)=>{
     response.status(200).send("Rodando")
 })
 
+app.get("/action/get/:Id", async(request, response)=>{
+    const {Id} = z.object({
+        Id: z.string().refine((value)=>{
+            return !isNaN(Number(value))
+        })
+    }).parse(request.params)
+
+    const transactionsFromUser = await prisma.transaction.findMany({
+        where:{
+            UserId: Number(Id)
+        }
+    })
+
+    response.status(302).send({
+        Description: "Lista de Transações do Usuário " + Id,
+        Transações: [...transactionsFromUser]
+    })
+})
+
 app.post("/registuser",async (request, reponse)=>{
 
     const {Email, Password, Username} = z.object({

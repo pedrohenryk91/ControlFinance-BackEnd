@@ -1,6 +1,9 @@
 GET http://127.0.0.1:3000/
 
 ####
+GET http://127.0.0.1:3000/action/get/2
+
+####
 POST http://127.0.0.1:3000/registuser
 Content-Type:application/json
 
