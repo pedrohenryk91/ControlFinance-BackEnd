@@ -14,7 +14,7 @@ datasource db {
 }
 
 model user {
-  Id Int @id @default(autoincrement())
+  Id String @id @unique
   Email String @unique
   Password String
   Date DateTime @default(now())
@@ -24,9 +24,9 @@ model user {
 }
 
 model transaction {
-  Id Int @id @default(autoincrement())
+  Id String @id @unique
   Value Float
   Type String
-  UserId Int
+  UserId String
   User user @relation(fields: [UserId], references: [Id])
 }

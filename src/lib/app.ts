@@ -1,34 +1,63 @@
-import fastify from "fastify";
-import { z } from "zod";
+import Fastify,{fastify} from "fastify"
+import { z } from "zod"
 import { prisma } from "./prisma.ts"
+import { comparePassword, hashPassword } from "./tools.ts"
+import fastifyJwt from '@fastify/jwt';
+import { randomUUID } from "crypto";
+import { VerifyJWT } from "../http/midlewares/verifyJWT.ts";
+
+const SECRET = "segredossecretos"
 
 export const app = fastify()
+
+app.register(fastifyJwt, {secret: SECRET})
+
+app.addHook("preHandler",async (request, response)=>{
+    try {
+        if (request.url != "/register" && request.url != "/auth/login") {
+            request.jwtVerify()
+        }
+    }
+    catch(err) {
+        response.status(401).send(err)
+    }
+})
 
 app.get("/",async (request, response)=>{
     console.log(request.ip)
     response.status(200).send("Rodando")
 })
 
-app.get("/action/get/:Id", async(request, response)=>{
-    const {Id} = z.object({
-        Id: z.string().refine((value)=>{
-            return !isNaN(Number(value))
+app.get("/action/get/transactions",{
+    preHandler:[VerifyJWT]
+},async (request, response)=>{
+    const user = request.user.sub
+    try{
+        const transactionList = await prisma.transaction.findMany({
+            where:{
+                UserId:user
+            }
         })
-    }).parse(request.params)
-
-    const transactionsFromUser = await prisma.transaction.findMany({
-        where:{
-            UserId: Number(Id)
+        if(transactionList){
+            response.status(200).send([...transactionList])
+        } else {
+            response.status(404).send({
+                Message:"Não encontrado"
+            })
         }
-    })
-
-    response.status(302).send({
-        Description: "Lista de Transações do Usuário " + Id,
-        Transações: [...transactionsFromUser]
-    })
+    } catch(err){
+        response.send(err)
+    }
 })
 
-app.post("/registuser",async (request, reponse)=>{
+app.get("/protected",{
+    preHandler: [VerifyJWT]
+},async (request, response)=>{
+    const user = request.user
+    console.log(user)
+})
+
+app.post("/register",async (request, reponse)=>{
 
     const {Email, Password, Username} = z.object({
         Email:z.string().email(),
@@ -36,9 +65,15 @@ app.post("/registuser",async (request, reponse)=>{
         Username:z.string().optional()
     }).parse(request.body)
 
+    const hashedPassword = await hashPassword(Password)
+
+
     const obj_user = await prisma.user.create({
         data:{
-            Email,Password,Username
+            Id: randomUUID(),
+            Email,
+            Password: hashedPassword,
+            Username
         }
     })
 
@@ -52,31 +87,34 @@ app.post("/registuser",async (request, reponse)=>{
     }
 })
 
-app.post("/action/:UserId/:Value/:Type",async (request, response)=>{
+app.post("/action/post/transaction",{
+    preHandler:[VerifyJWT]
+},async (request, response)=>{
 
-    const {UserId,Value,Type} = z.object({
-        UserId: z.string().refine((value)=>{
-            return !isNaN(Number(value))
-        }),
-        Value: z.string().refine((value)=>{
-            return !isNaN(Number(value))
-        }),
+    const {Value,Type} = z.object({
+        Value: z.number(),
         Type: z.string()
-    }).parse(request.params)
+    }).parse(request.body)
 
-    const obj_transaction = prisma.transaction.create({
+    const UserId = String(request.user.sub)
+
+    const obj_transaction = await prisma.transaction.create({
         data:{
-            Value: Number(Value),
-            UserId: Number(UserId),
+            Id: randomUUID(),
+            Value,
+            UserId:String(UserId),
             Type
         }
     })
-
+    
     response.status(201).send({
         Description: "Registro de Transação",
-        Value: (await obj_transaction).Value,
-        Type: (await obj_transaction).Type
+        Value: obj_transaction.Value,
+        Type: obj_transaction.Type
     })
+    
+    response.status(404).send("Usuário não existe");
+
 })
 
 app.patch("/auth/login",async(req,res)=>{
@@ -95,32 +133,18 @@ app.patch("/auth/login",async(req,res)=>{
     if(!doesTheEmailExists){
         res.status(404).send("Email não encontrado")
     } else {
-        if(Password==doesTheEmailExists.Password){
-            res.status(200).send({
-                Description:"Usuário logado",
-                UserId:doesTheEmailExists.Id
+        if(await comparePassword(Password, doesTheEmailExists.Password)){
+            const token = await res.jwtSign({},{
+                sign:{
+                    sub:doesTheEmailExists.Id
+                }
+            })
+            res.status(201).send({ token })
+        }
+        else{
+            res.status(401).send({
+                Message: "Senha Incorreta"
             })
         }
-    }
-})
-
-app.delete("/remuser/:Id", async (request, response)=>{
-
-    const {Id} = z.object({
-        Id:z.string()
-    }).parse(request.params)
-
-    const id = Number(Id)
-    
-    try{
-        const user = await prisma.user.delete({
-            where:{
-                Id:id
-            }
-        })
-        response.send("Usuario deletado" + user)
-    }
-    catch(err){
-        response.status(498).send("erro" + err)
     }
 })

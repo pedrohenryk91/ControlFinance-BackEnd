@@ -3,7 +3,7 @@ node_modules
 .env
 
 # keep SQlite db out of git
-prisma/db
+prisma\db
 
 # keep rest.http out of git
 rest.http

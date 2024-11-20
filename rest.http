@@ -1,29 +1,38 @@
 GET http://127.0.0.1:3000/
 
 ####
-GET http://127.0.0.1:3000/action/get/2
+GET http://127.0.0.1:3000/action/get/transactions
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0ZjBiZjlmNi04ZGY3LTQ3MDQtYjQxZi1kYTExYmE2ZmZmMjQiLCJpYXQiOjE3MzE5Mzg1Mzh9.OsHn8W0QLqpEaH09j5GsqHfSgnyaCav42-2io7bi_no
 
 ####
-POST http://127.0.0.1:3000/registuser
+GET http://127.0.0.1:3000/protected
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0ZjBiZjlmNi04ZGY3LTQ3MDQtYjQxZi1kYTExYmE2ZmZmMjQiLCJpYXQiOjE3MzE5MzY2ODMsImV4cCI6MTczMTk0MDI4M30.p7Y74p_u3B0jgodSBwiAKkfKHI7nb_LD_frQYzz5uos
+
+####
+POST http://127.0.0.1:3000/register
 Content-Type:application/json
 
 {
-    "Email":"franciscohenrique23@gmail.com",
+    "Email":"geraldoal@gmail.com",
     "Password":"lklssffdbs",
-    "Username":"Renato Russo"
+    "Username":"Antonio"
 }
 
 ####
-POST http://127.0.0.1:3000/action/2/50/positive
+POST http://127.0.0.1:3000/action/post/transaction
+Content-Type:application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0ZjBiZjlmNi04ZGY3LTQ3MDQtYjQxZi1kYTExYmE2ZmZmMjQiLCJpYXQiOjE3MzE5Mzg1Mzh9.OsHn8W0QLqpEaH09j5GsqHfSgnyaCav42-2io7bi_no
 
-####
-DELETE http://127.0.0.1:3000/remuser/1
+{
+    "Value":2000,
+    "Type":"Positivo"
+}
 
 ####
 PATCH http://127.0.0.1:3000/auth/login
 Content-Type:application/json
 
 {
-    "Email":"Joaquin22@gmail.com",
-    "Password":"Joaquis33"
+    "Email":"geraldoal@gmail.com",
+    "Password":"lklssffdbs"
 }
