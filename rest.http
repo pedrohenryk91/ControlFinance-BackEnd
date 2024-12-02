@@ -1,12 +1,8 @@
-GET http://127.0.0.1:3000/
+GET http://127.0.0.1:3000/home
 
 ####
-GET http://127.0.0.1:3000/action/get/transactions
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0ZjBiZjlmNi04ZGY3LTQ3MDQtYjQxZi1kYTExYmE2ZmZmMjQiLCJpYXQiOjE3MzE5Mzg1Mzh9.OsHn8W0QLqpEaH09j5GsqHfSgnyaCav42-2io7bi_no
-
-####
-GET http://127.0.0.1:3000/protected
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0ZjBiZjlmNi04ZGY3LTQ3MDQtYjQxZi1kYTExYmE2ZmZmMjQiLCJpYXQiOjE3MzE5MzY2ODMsImV4cCI6MTczMTk0MDI4M30.p7Y74p_u3B0jgodSBwiAKkfKHI7nb_LD_frQYzz5uos
+GET http://127.0.0.1:3000/get/transactions
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyYTc0MzUzZi1lOTkwLTQ0ZjAtYjA4ZS02MWI0ZDlmNTk1ZmQiLCJpYXQiOjE3MzMxNjc3MjV9.VEFyRjariBZk39QGs1pBKiGSTPsg8JHpbLa2NHVW5aY
 
 ####
 POST http://127.0.0.1:3000/register
@@ -19,20 +15,24 @@ Content-Type:application/json
 }
 
 ####
-POST http://127.0.0.1:3000/action/post/transaction
+POST http://127.0.0.1:3000/post/transaction
 Content-Type:application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0ZjBiZjlmNi04ZGY3LTQ3MDQtYjQxZi1kYTExYmE2ZmZmMjQiLCJpYXQiOjE3MzE5Mzg1Mzh9.OsHn8W0QLqpEaH09j5GsqHfSgnyaCav42-2io7bi_no
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyYTc0MzUzZi1lOTkwLTQ0ZjAtYjA4ZS02MWI0ZDlmNTk1ZmQiLCJpYXQiOjE3MzMxNjc3MjV9.VEFyRjariBZk39QGs1pBKiGSTPsg8JHpbLa2NHVW5aY
 
 {
     "Value":2000,
-    "Type":"Positivo"
+    "Type":"Outcome"
 }
 
 ####
-PATCH http://127.0.0.1:3000/auth/login
+POST http://127.0.0.1:3000/auth/login
 Content-Type:application/json
 
 {
     "Email":"geraldoal@gmail.com",
     "Password":"lklssffdbs"
 }
+
+####
+DELETE http://127.0.0.1:3000/deleteuser HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyYTc0MzUzZi1lOTkwLTQ0ZjAtYjA4ZS02MWI0ZDlmNTk1ZmQiLCJpYXQiOjE3MzMxNjc3MjV9.VEFyRjariBZk39QGs1pBKiGSTPsg8JHpbLa2NHVW5aY

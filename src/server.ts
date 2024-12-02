@@ -1,8 +1,10 @@
 import { app } from "./lib/app.ts"
+import { PORT,HOST } from "./lib/env/index.ts"
 
 app.listen({
-    port:3000,
-    host:"127.0.0.1"
+    port:Number(PORT),
+    host:HOST
 },(err,path)=>{
     console.log(err||path)
 })
+
