@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação da API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        section {
+            background-color: #fff;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border: 1px solid #ddd;
+        }
+        code {
+            font-family: "Courier New", Courier, monospace;
+            color: #d63384;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Documentação da API</h1>
+    </header>
+
+    <section>
+        <h2>POST /register</h2>
+        <strong style="color: green;"><p>Livre para todos</p></strong>
+        <p>Registra um usuário.</p>
+        <h3>Parâmetros</h3>
+        <pre><code>[
+    {
+        "Email":"example@email.com",
+        "Password":"string"
+    },
+    {
+        "Email":"example@email.com",
+        "Password":"string",
+        "Username":"string"
+    }
+]
+</code></pre>
+        <p>O Campo "Username" é opcional, os demais são obrigatórios</p>
+        <h3>Resposta</h3>
+        <pre><code><strong style="color: green;">201 Created</strong>
+{
+    "Description": "Usuario Criado",
+    "User_Name": Username,
+    "User_Email": Email
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h2>POST /auth/login</h2>
+        <strong style="color: green;"><p>Livre para todos</p></strong>
+        <p>Realiza o login do usuário</p>
+        <h3>Parâmetros</h3>
+        <pre><code>{
+    "Email":"example@email.com",
+    "Password":"string"
+}
+</code></pre>
+        <h3>Resposta</h3>
+        <pre><code><strong style="color: green;">200 Ok</strong>
+{
+    "token":"jwttoken"
+}</code></pre>
+    </section>
+
+    <section>
+        <h2>POST /register/transaction</h2>
+        <strong style="color: red;"><p>Necessita que o usuário esteja logado</p></strong>
+        <p>Registra uma transação.</p>
+        <h3>Parâmetros</h3>
+        <pre><code>{
+    "Value": number,
+    "Type": "Income | Outcome"
+}</code></pre>
+        <p>Type deve ser "Income" para transações de entrada ou "Outcome" para transações de saídas</p>
+        <h3>Resposta</h3>
+        <pre><code><strong style="color: green;">201 Created</strong>
+{
+    "Description": "Registro de Transação",
+    "Value": number,
+    "Type": "Income | Outcome"
+}</code></pre>
+    </section>
+
+    <section>
+        <h2>GET /get/transactions</h2>
+        <strong style="color: red;"><p>Necessita que o usuário esteja logado</p></strong>
+        <p>Pega as transações do usuário.</p>
+        <h3>Sem Parâmetros</h3>
+        <h3>Resposta</h3>
+        <pre><code><strong style="color: green;">200 Ok</strong>
+{ 
+    "Value": number,
+    "Type": "Income | Outcome"
+},
+{
+    ...
+}</code></pre>
+    <p>Retorna uma lista de transações</p>
+    </section>
+
+    <section>
+        <h2>GET /</h2>
+        <strong style="color: green;"><p>Livre para todos</p></strong>
+        <h3>Não necessita de parâmetros e não retorna nada, apenas o caminho padrão</h3>
+    </section>
+
+    <section>
+        <h2>DELETE /delete/user</h2>
+        <strong style="color: red;"><p>Necessita que o usuário esteja logado</p></strong>
+        <p>Deleta um usuário</p>
+        <h3>Sem Parâmetros</h3>
+        <h3>Resposta</h3>
+        <pre><code><strong style="color: green;">204 No Content</strong></code></pre>
+    </section>

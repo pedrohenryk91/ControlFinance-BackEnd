@@ -9,8 +9,13 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+enum types {
+  Income
+  Outcome
 }
 
 model user {
@@ -26,7 +31,7 @@ model user {
 model transaction {
   Id String @id @unique
   Value Float
-  Type String
+  Type types
   UserId String
   User user @relation(fields: [UserId], references: [Id])
 }

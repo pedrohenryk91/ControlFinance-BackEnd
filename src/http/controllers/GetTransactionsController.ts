@@ -10,7 +10,11 @@ export async function GetTransactionsController(request: FastifyRequest, reply: 
             }
         })
         if(transactionList){
-            reply.status(200).send([...transactionList])
+            const sanitizedList = transactionList.map(transaction => {
+                const { Id, UserId, ...safeTransaction} = transaction;
+                return safeTransaction;
+            })
+            reply.status(200).send(sanitizedList)
         } else {
             reply.status(404).send({
                 Message:"Não encontrado"

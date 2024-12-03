@@ -5,29 +5,34 @@ import { prisma } from "../../lib/prisma.ts";
 import z from "zod";
 
 export async function RegisterClientController(request: FastifyRequest, reply: FastifyReply){
-    const {Email, Password, Username} = z.object({
-        Email:z.string().email(),
-        Password:z.string(),
-        Username:z.string().optional()
-    }).parse(request.body)
-
-    const hashedPassword = await hashPassword(Password)
     
-    const obj_user = await prisma.user.create({
-        data:{
-            Id: randomUUID(),
-            Email,
-            Password: hashedPassword,
-            Username
-        }
-    })
+    try {
+        const {Email, Password, Username} = z.object({
+            Email:z.string().email().toLowerCase(),
+            Password:z.string(),
+            Username:z.string().toLowerCase().optional()
+        }).parse(request.body)
 
-    if(obj_user){
+        const hashedPassword = await hashPassword(Password)
+    
+        await prisma.user.create({
+            data:{
+                Id: randomUUID(),
+                Email,
+                Password: hashedPassword,
+                Username
+            }
+        })
+
         reply.status(201).send({
             Description: "Usuario Criado",
-            User_Id: obj_user.Id,
             User_Name: Username,
             User_Email: Email
+        })
+    
+    } catch(e){
+        reply.status(417).send({
+            Error: e
         })
     }
 }

@@ -12,8 +12,8 @@ export async function Router(app: FastifyInstance){
     app.addHook("preHandler", JwtHookController)
     app.post("/register", RegisterClientController)
     app.post("/auth/login", AuthLoginController)
-    app.post("/post/transaction", { preHandler: [VerifyJWT] }, PostTransactionController)
+    app.post("/register/transaction", { preHandler: [VerifyJWT] }, PostTransactionController)
     app.get("/get/transactions", { preHandler:[VerifyJWT] }, GetTransactionsController)
-    app.get("/home", HomeController)
-    app.delete("/deleteuser", { preHandler:[VerifyJWT] }, DeleteUserController)
+    app.get("/", HomeController)
+    app.delete("/delete/user", { preHandler:[VerifyJWT] }, DeleteUserController)
 }
