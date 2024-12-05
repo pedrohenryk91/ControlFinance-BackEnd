@@ -2,13 +2,14 @@
 <p> This a back-end API for a simple control finance application.</p>
 <session>
 <p>install dependencies</p>
-<pre><code>
+<code>
  npm i
-</code><pre>
+</code>
 </session>
+
 <session>
 <p>run API</p>
-<pre><code>
+<code>
  npm run dev
-</code><pre>
+</code>
 </session>
