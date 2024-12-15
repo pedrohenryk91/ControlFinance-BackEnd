@@ -2,7 +2,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 
 export async function JwtHookController(request: FastifyRequest, reply: FastifyReply){
     try {
-        if (request.url != "/register" && request.url != "/auth/login" && request.url != "/home") {
+        if (request.url != "/register" && request.url != "/auth/login") {
             request.jwtVerify()
         }
     }

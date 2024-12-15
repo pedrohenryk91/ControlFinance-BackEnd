@@ -33,9 +33,7 @@ export async function PostTransactionController(request: FastifyRequest, reply: 
     })
     
     reply.status(201).send({
-        Description: "Registro de Transação",
-        Value: transaction.Value,
-        Type: transaction.Type
+        Description: "Registro de Transação Completo"
     })
     
     reply.status(404).send("Usuário não existe");

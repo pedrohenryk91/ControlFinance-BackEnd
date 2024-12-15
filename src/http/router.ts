@@ -3,7 +3,7 @@ import { PostTransactionController } from "./controllers/PostTransactionControll
 import { GetTransactionsController } from "./controllers/GetTransactionsController"
 import { DeleteUserController } from "./controllers/DeleteUserController"
 import { AuthLoginController } from "./controllers/AuthLoginController"
-import { JwtHookController } from "./controllers/JwtHookController"
+import { JwtHookController } from "./hooks/JwtHookController"
 import { FastifyInstance } from "fastify"
 import { HomeController } from "./controllers/HomeController"
 import { VerifyJWT } from "./middlewares/verifyJWT"
