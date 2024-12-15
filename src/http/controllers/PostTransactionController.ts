@@ -2,7 +2,6 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 import { prisma } from "../../lib/prisma";
 import { randomUUID } from "crypto";
-import { types } from "@prisma/client";
 
 const transactionTypes = z.enum(["Income","Outcome"])
 

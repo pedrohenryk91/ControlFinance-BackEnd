@@ -7,10 +7,9 @@ import z from "zod";
 export async function RegisterClientController(request: FastifyRequest, reply: FastifyReply){
     
     try {
-        const {Email, Password, Username} = z.object({
+        const {Email, Password} = z.object({
             Email:z.string().email().toLowerCase(),
-            Password:z.string(),
-            Username:z.string().toLowerCase().optional()
+            Password:z.string()
         }).parse(request.body)
 
         const hashedPassword = await hashPassword(Password)
@@ -19,15 +18,12 @@ export async function RegisterClientController(request: FastifyRequest, reply: F
             data:{
                 Id: randomUUID(),
                 Email,
-                Password: hashedPassword,
-                Username
+                Password: hashedPassword
             }
         })
 
         reply.status(201).send({
-            Description: "Usuario Criado",
-            User_Name: Username,
-            User_Email: Email
+            Description: "Usuario Criado"
         })
     
     } catch(e){
